@@ -83,7 +83,7 @@ and   created_at <= getdate()
 where rankn =100
 
 
-5.select count(payment_method)
+6.select count(payment_method)
 from(
 select payment_method,  count(payment_method) as c
 from orders
@@ -91,3 +91,15 @@ from orders
 group by payment_method
 ) t
 
+
+7.select user_phone, created_at, sp
+from
+(
+select user_phone, created_at, sum(pay_amount) as sp, 
+ROW_NUMBER() over (partition by created_at order by sum(pay_amount) desc) as rn
+from orders
+where store_id = 71
+group by user_phone, created_at
+
+) t
+where rn = 1
