@@ -83,4 +83,11 @@ and   created_at <= getdate()
 where rankn =100
 
 
-5.
+5.select count(payment_method)
+from(
+select payment_method,  count(payment_method) as c
+from orders
+----where pay_amount = 4300
+group by payment_method
+) t
+
