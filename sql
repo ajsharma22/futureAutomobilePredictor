@@ -83,6 +83,20 @@ and   created_at <= getdate()
 where rankn =100
 
 
+5.select payment_method, successful, total, (successful*100.00)/total as Success_percent from 
+(select payment_method, count(*) as successful
+from orders 
+where payment_status = 3
+group by payment_method) a
+left join 
+(
+select payment_method as pm, count(*) as total
+from orders
+group by payment_method
+) b on a.payment_method = b.pm
+order by Success_percent desc
+
+
 6.select count(payment_method)
 from(
 select payment_method,  count(payment_method) as c
